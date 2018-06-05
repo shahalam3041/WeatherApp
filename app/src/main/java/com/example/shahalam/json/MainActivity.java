@@ -19,13 +19,17 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
+    TextView textView, cityName, temperature1, countryName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textView);
+        cityName = findViewById(R.id.cityID);
+        temperature1 = findViewById(R.id.temperatureID);
+        countryName = findViewById(R.id.countryID);
+
         JSONTask jsonTask = new JSONTask();
         jsonTask.execute();
     }
@@ -33,15 +37,18 @@ public class MainActivity extends AppCompatActivity {
     public class JSONTask extends AsyncTask<String,String,String> {
 
 
+        String cityIDofAPI = "1203891";
+        CustomData customData = new CustomData();
         HttpURLConnection httpURLConnection = null;
         BufferedReader bufferedReader = null;
-        String uniName, locations;
-        int students, teachers;
+
+        String name, description, temperature, country;
+        String file;
         @Override
         protected String doInBackground(String... strings) {
 
             try {
-                URL url = new URL("https://api.myjson.com/bins/1479e2");
+                URL url = new URL("http://api.openweathermap.org/data/2.5/weather?id=1203891&appid=992979a2c20cfaae30adbdff69a1f724");
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -52,14 +59,38 @@ public class MainActivity extends AppCompatActivity {
                     stringBuffer.append(line);
                 }
 
-                return stringBuffer.toString();
+                file = stringBuffer.toString();
+                JSONObject mainObject = new JSONObject(file);
+                // extract city name
+                name = mainObject.getString("name");
+
+                // extract temperature
+                String temp = mainObject.getString("main");
+                JSONObject innerMain = new JSONObject(temp);
+                temperature = innerMain.getString("temp");
+
+                /// extract country name
+                String counName = mainObject.getString("sys");
+                JSONObject countrName = new JSONObject(counName);
+                country = countrName.getString("country");
+
+
+                // put them to custom data
+                customData.addCityName(name);
+                customData.addCountry(country);
+                customData.addTemperature(temperature);
+
+
+
+                return country;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-             finally {
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
                 httpURLConnection.disconnect();
                 try {
                     bufferedReader.close();
@@ -75,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            textView.setText(s);
+           String shohor =  customData.getCityName().toString();
+           String tap = customData.getTemperature().toString();
+           String desh = customData.getCountry().toString();
+           cityName.setText(shohor);
+           countryName.setText(desh);
+           temperature1.setText(tap);
+
         }
     }
 }
