@@ -37,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
     public class JSONTask extends AsyncTask<String,String,String> {
 
 
-        String cityIDofAPI = "1203891";
+        String cityIDofAPI = "1203891"; /// for dinajpur city
+        String appIDofAPI = "992979a2c20cfaae30adbdff69a1f724"; /// api key, it is fixed
+        String link = "http://api.openweathermap.org/data/2.5/weather?id="+cityIDofAPI+"&appid="+appIDofAPI;
         CustomData customData = new CustomData();
         HttpURLConnection httpURLConnection = null;
         BufferedReader bufferedReader = null;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                URL url = new URL("http://api.openweathermap.org/data/2.5/weather?id=1203891&appid=992979a2c20cfaae30adbdff69a1f724");
+                URL url = new URL(link);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
