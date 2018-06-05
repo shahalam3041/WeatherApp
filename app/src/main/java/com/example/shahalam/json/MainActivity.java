@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textViewID);
+        textView = findViewById(R.id.textView);
         JSONTask jsonTask = new JSONTask();
         jsonTask.execute();
     }
@@ -31,11 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         HttpURLConnection httpURLConnection = null;
         BufferedReader bufferedReader = null;
+        String uniName, locations;
+        int students, teachers;
         @Override
         protected String doInBackground(String... strings) {
 
             try {
-                URL url = new URL("http://samples.openweathermap.org/data/2.5/weather?zip=94040,us&appid=b6907d289e10d714a6e88b30761fae22");
+                URL url = new URL("https://api.myjson.com/bins/1479e2");
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -46,13 +52,20 @@ public class MainActivity extends AppCompatActivity {
                     stringBuffer.append(line);
                 }
 
-
                 return stringBuffer.toString();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+             finally {
+                httpURLConnection.disconnect();
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }
@@ -61,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
             textView.setText(s);
         }
     }
