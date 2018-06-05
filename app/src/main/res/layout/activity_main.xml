@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:text="TextView"
+        android:text="shahalam3041"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/temperatureID"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.967" />
 
     <TextView
         android:id="@+id/cityID"
@@ -25,6 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="30dp"
         android:text="City"
+        android:textSize="60sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,19 +34,23 @@
         android:id="@+id/countryID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="8dp"
         android:text="country"
-        app:layout_constraintStart_toEndOf="@+id/cityID"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/cityID"
         app:layout_constraintTop_toBottomOf="@+id/cityID" />
 
     <TextView
         android:id="@+id/temperatureID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:text="temperature"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:text="30C"
+        android:textSize="70sp"
         app:layout_constraintStart_toStartOf="@+id/countryID"
         app:layout_constraintTop_toBottomOf="@+id/countryID" />
 </android.support.constraint.ConstraintLayout>
